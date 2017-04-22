@@ -13,19 +13,17 @@ public class PaddleController : MonoBehaviour {
     [SerializeField]
     private float _orbitDistance;
 
-    public enum MoveDirection {
-        Left = -1,
-        None = 0,
-        Right = 1,
-    }
+    [SerializeField, Range( -1, 1 )]
+    private float _direction = 0;
 
     public float Speed {
         get { return _speed; }
         set { _speed = value; }
     }
 
-    public MoveDirection Direction {
-        get; set;
+    public float Direction {
+        get { return _direction; }
+        set { _direction = Mathf.Clamp( value, -1, 1 ) };
     }
 
     public Planet Planet {
@@ -45,8 +43,7 @@ public class PaddleController : MonoBehaviour {
 
     private void FixedUpdate() {
 
-        int direction = (int) Direction;
-        float anglePerSecond = Speed / Planet.Permieter * direction;
+        float anglePerSecond = Speed / Planet.Permieter * Direction;
         float deltaAngle = Time.fixedDeltaTime * anglePerSecond;
 
         OrbitAngle += deltaAngle;
