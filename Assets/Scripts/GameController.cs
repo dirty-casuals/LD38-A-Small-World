@@ -7,7 +7,7 @@ public class GameController : MonoBehaviour {
     [SerializeField]
     private Rigidbody ball;
     [SerializeField]
-    private Planet[] worlds;
+    private World[] worlds;
 
     private Vector3 ballStartPosition;
 

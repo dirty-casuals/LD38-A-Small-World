@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 public class Planet : MonoBehaviour {
     [SerializeField]
     private float _radius;
-
-    private UnityEvent onPlanetHit = new UnityEvent();
 
     public float Radius {
         get { return _radius; }
@@ -14,15 +11,6 @@ public class Planet : MonoBehaviour {
 
     public float Permieter {
         get { return 2 * Mathf.PI * Radius; }
-    }
-    
-
-    private void OnCollisionEnter(Collision other) {
-        onPlanetHit.Invoke();
-    }
-
-    public void AddHitListener(UnityAction call) {
-        onPlanetHit.AddListener(call);
     }
 
     public void SampleOrbit2D( float angle,
