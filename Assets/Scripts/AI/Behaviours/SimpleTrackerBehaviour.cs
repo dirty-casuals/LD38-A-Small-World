@@ -11,7 +11,9 @@ public class SimpleTrackerBehaviour : TrackingBehaviour {
         float direction = 0.0f;
         float ballZ = ballProperties.position.z;
         float paddleZ = paddleProperties.position.z;
-        float positionDifference = Mathf.Clamp(ballZ - paddleZ, MIN_Z, MAX_Z);
+        float positionDifference = Mathf.Clamp(ballZ - paddleZ,
+                                               GameController.MIN_Z,
+                                               GameController.MAX_Z);
         if( positionDifference > 0 ) {
             direction = -1.0f * (1 - ( 1 / positionDifference));
         } else if( positionDifference < 0 ) {

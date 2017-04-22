@@ -2,6 +2,9 @@
 
 public class GameController : MonoBehaviour {
 
+    public static float MAX_Z = 7.0f;
+    public static float MIN_Z = -7.0f;
+
     [SerializeField]
     private Rigidbody ball;
     [SerializeField]
