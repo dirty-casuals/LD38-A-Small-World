@@ -29,8 +29,6 @@ public class AIBatControl : MonoBehaviour {
             ballProperties,
             paddleProperties
         );
-
-        
         paddleController.Direction = direction;
-	}
+	}   
 }

@@ -9,6 +9,7 @@ public class LivesEvent : UnityEvent<bool> {
 }
 
 public class Lives : MonoBehaviour {
+
     [SerializeField]
     private int numberStartLives = 5;
     [SerializeField]
