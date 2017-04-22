@@ -4,18 +4,45 @@
 public class Planet : MonoBehaviour {
     [SerializeField]
     private float _radius;
+    [SerializeField]
+    private float _moveSpeed;
+
+    private int moveDirection = 1;
 
     public float Radius {
         get { return _radius; }
         set { _radius = value; }
     }
 
-    public float Permieter {
+    public float MoveSpeed {
+        get { return _moveSpeed; }
+        set { _moveSpeed = value; }
+    }
+
+    public float Perimeter {
         get { return 2 * Mathf.PI * Radius; }
     }
 
     public float Volume {
         get { return 4 / 3 * Mathf.PI * Radius * Radius * Radius; }
+    }
+
+    private void Start() {
+        moveDirection = Random.Range(0, 2) * 2 - 1;
+    }
+
+    private void FixedUpdate()
+    {
+        float currentZ = transform.position.z;
+        float nextZ = currentZ + (moveDirection * _moveSpeed);
+
+        if ( nextZ >= GameController.MAX_Z || nextZ <= GameController.MIN_Z ) {
+            moveDirection = -moveDirection;
+        }
+
+        transform.position = new Vector3(transform.position.x,
+                                         transform.position.y,
+                                         nextZ);
     }
 
     public void SampleOrbit2D( float angle,
@@ -27,10 +54,10 @@ public class Planet : MonoBehaviour {
         float x = Mathf.Cos( angle ) * distance;
         float y = Mathf.Sin( angle ) * distance;
 
-        Vector3 dispalcement = new Vector3( x, 0, y );
+        Vector3 displacement = new Vector3( x, 0, y );
         Vector3 center = transform.position;
-        position = center + dispalcement;
-        normal = dispalcement.normalized;
+        position = center + displacement;
+        normal = displacement.normalized;
     }
 
 #if UNITY_EDITOR

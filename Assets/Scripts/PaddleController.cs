@@ -62,7 +62,7 @@ public class PaddleController : MonoBehaviour {
 
     private void FixedUpdate() {
 
-        float anglePerSecond = Speed / Planet.Permieter * Direction * Mathf.Rad2Deg;
+        float anglePerSecond = Speed / Planet.Perimeter * Direction * Mathf.Rad2Deg;
         float deltaAngle = Time.fixedDeltaTime * anglePerSecond;
 
         OrbitAngle += deltaAngle;
