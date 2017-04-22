@@ -5,7 +5,8 @@ using UnityEngine;
 public class TrackingBehaviour : MonoBehaviour {
 
 	public virtual float GetNextDirection(BallProperties ballProperties,
-                                           PaddleProperties paddleProperties){
+                                           PaddleProperties paddleProperties,
+                                           PlanetProperties planetProperties){
         return 0.0f;
     }
 
