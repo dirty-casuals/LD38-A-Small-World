@@ -23,7 +23,7 @@ public class PaddleController : MonoBehaviour {
 
     public float Direction {
         get { return _direction; }
-        set { _direction = Mathf.Clamp( value, -1, 1 ) };
+        set { _direction = Mathf.Clamp( value, -1, 1 ); }
     }
 
     public Planet Planet {
