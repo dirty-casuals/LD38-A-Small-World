@@ -15,10 +15,19 @@ public class GameController : MonoBehaviour {
         foreach (var world in worlds)
         {
             world.AddHitListener(OnWorldHit);
+            world.AddOutOfLivesListener(OnOutOfLives);
         }
         ballStartPosition = ball.transform.position;
 
         KickOff();
+    }
+
+    private void OnOutOfLives(bool isPlayer) {
+        if( isPlayer ) {
+            Debug.Log("PLAYER LOST!");
+        } else {
+            Debug.Log("POOTER LOST!");
+        }
     }
 
     private void OnWorldHit() {
