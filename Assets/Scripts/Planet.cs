@@ -18,6 +18,8 @@ public class Planet : MonoBehaviour {
                                out Vector3 position,
                                out Vector3 normal ) {
 
+        angle = angle * Mathf.Deg2Rad;
+
         // Polar to cartesian coordinates
         float x = Mathf.Cos( angle ) * distance;
         float y = Mathf.Sin( angle ) * distance;
