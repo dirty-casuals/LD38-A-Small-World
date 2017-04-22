@@ -10,15 +10,19 @@ public class World : Planet {
         lives = GetComponent<Lives>();
     }
 
-    private void OnCollisionEnter(Collision other) {
+    private void OnCollisionEnter( Collision other ) {
         onPlanetHit.Invoke();
     }
 
-    public void AddHitListener(UnityAction call) {
-        onPlanetHit.AddListener(call);
+    public void AddHitListener( UnityAction call ) {
+        onPlanetHit.AddListener( call );
     }
 
-    public void AddOutOfLivesListener(UnityAction<bool> call) {
-        lives.AddListener(call);
+    public void AddOutOfLivesListener( UnityAction<int> call ) {
+        lives.AddOutOfLivesListener( call );
+    }
+
+    public void AddLivesChangedListener( UnityAction<int> call ) {
+        lives.AddLivesChangedListener( call );
     }
 }

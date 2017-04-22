@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
-public class LivesEvent : UnityEvent<bool> {
+public class LivesEvent : UnityEvent<int> {
 
 }
 
@@ -13,10 +13,16 @@ public class Lives : MonoBehaviour {
     [SerializeField]
     private int numberStartLives = 5;
     [SerializeField]
-    private bool isPlayer = false;
+    private int playerId = 0;
 
     public int numberLivesRemaining;
-    private LivesEvent onLivesEmptyEvent = new LivesEvent();
+
+    [SerializeField]
+    private LivesEvent onLivesChanged;
+    [SerializeField]
+    private LivesEvent onLivesEmptyEvent;
+
+
 
     private void Awake() {
         numberLivesRemaining = numberStartLives;
@@ -30,15 +36,19 @@ public class Lives : MonoBehaviour {
         return numberLivesRemaining <= 0;
     }
 
-    private void OnCollisionEnter(Collision other) {
+    private void OnCollisionEnter( Collision other ) {
         RemoveLife();
 
-        if (OutOfLives()) {
-            onLivesEmptyEvent.Invoke(isPlayer);
+        if( OutOfLives() ) {
+            onLivesEmptyEvent.Invoke( playerId );
         }
     }
 
-    public void AddListener(UnityAction<bool> listener) {
-        onLivesEmptyEvent.AddListener(listener);
+    public void AddOutOfLivesListener( UnityAction<int> listener ) {
+        onLivesEmptyEvent.AddListener( listener );
+    }
+
+    public void AddLivesChangedListener( UnityAction<int> listener ) {
+        onLivesChanged.AddListener( listener );
     }
 }

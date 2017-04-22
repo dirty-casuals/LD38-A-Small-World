@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
@@ -12,21 +10,20 @@ public class GameController : MonoBehaviour {
     private Vector3 ballStartPosition;
 
     private void Start() {
-        foreach (var world in worlds)
-        {
-            world.AddHitListener(OnWorldHit);
-            world.AddOutOfLivesListener(OnOutOfLives);
+        foreach( var world in worlds ) {
+            world.AddHitListener( OnWorldHit );
+            world.AddOutOfLivesListener( OnOutOfLives );
         }
         ballStartPosition = ball.transform.position;
 
         KickOff();
     }
 
-    private void OnOutOfLives(bool isPlayer) {
-        if( isPlayer ) {
-            Debug.Log("PLAYER LOST!");
+    private void OnOutOfLives( int playerId ) {
+        if( playerId == 0 ) {
+            Debug.Log( "PLAYER LOST!" );
         } else {
-            Debug.Log("POOTER LOST!");
+            Debug.Log( "POOTER LOST!" );
         }
     }
 
