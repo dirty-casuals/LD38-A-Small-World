@@ -86,7 +86,7 @@ public class PaddleController : MonoBehaviour {
         }
 
         Vector3 targetPosition, targetFacing;
-        Planet.SampleOrbit2D( OrbitAngle * Mathf.Deg2Rad, OrbitDistance,
+        Planet.SampleOrbit2D( OrbitAngle * Mathf.Deg2Rad, OrbitDistance + Planet.Radius,
                               out targetPosition, out targetFacing );
 
         transform.forward = targetFacing;
