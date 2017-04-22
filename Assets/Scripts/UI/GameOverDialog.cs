@@ -11,13 +11,23 @@ public class GameOverDialog : MonoBehaviour {
     [SerializeField]
     private Text _retryButtonLabel;
 
+    public void OnPlayerOutOfLives( int playerId ) {
+        if( playerId == 0 ) {
+            SetLoseContent();
+            Show();
+        } else {
+            SetWinContent();
+            Show();
+        }
+    }
+
     public void Show() {
         gameObject.SetActive( true );
     }
 
     public void Hide() {
         gameObject.SetActive( false );
-    }    
+    }
 
     public void SetWinContent() {
         _gameOverMessage.text = "Congratulations, Pluto!";
