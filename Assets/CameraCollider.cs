@@ -10,6 +10,8 @@ public class CameraCollider : MonoBehaviour {
     [SerializeField]
     private float _planeThickness = 1;
 
+    [SerializeField]
+    private bool _isTrigger;
 
     void Start() {
         SetupCollisionPlanes();
@@ -46,6 +48,14 @@ public class CameraCollider : MonoBehaviour {
         }
 
         boxCollider.center = new Vector3( 0, -0.5f, -1 );
+        boxCollider.isTrigger = _isTrigger;
+
+        var delegator = child.GetComponent<CollisionEventDelegator>();
+        if( !delegator ) {
+            delegator = child.gameObject.AddComponent<CollisionEventDelegator>();
+        }
+
+        delegator.DelegateObject = gameObject;
 
         return child;
     }
@@ -57,5 +67,45 @@ public class CameraCollider : MonoBehaviour {
             SetupCollisionPlanes();
         }
     }
+
 #endif
+
+    private class CollisionEventDelegator : MonoBehaviour {
+        private GameObject _delegateObject;
+
+        public GameObject DelegateObject {
+            get { return _delegateObject; }
+            set { _delegateObject = value; }
+        }
+
+        private void OnCollisionEnter( Collision collision ) {
+            _delegateObject.SendMessage( "OnCollisionEnter",
+                                         collision,
+                                         SendMessageOptions.DontRequireReceiver );
+        }
+
+        private void OnCollisionExit( Collision collision ) {
+            _delegateObject.SendMessage( "OnCollisionExit",
+                                         collision,
+                                         SendMessageOptions.DontRequireReceiver );
+        }
+
+        private void OnTriggerEnter( Collider collider ) {
+            _delegateObject.SendMessage( "OnTriggerEnter",
+                                         collider,
+                                         SendMessageOptions.DontRequireReceiver );
+        }
+
+        private void OnTriggerExit( Collider collider ) {
+            _delegateObject.SendMessage( "OnTriggerExit",
+                                         collider,
+                                         SendMessageOptions.DontRequireReceiver );
+        }
+
+        private void OnTriggerStay( Collider collider ) {
+            _delegateObject.SendMessage( "OnTriggerStay",
+                                         collider,
+                                         SendMessageOptions.DontRequireReceiver );
+        }
+    }
 }
