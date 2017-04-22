@@ -46,10 +46,10 @@ public class PaddleController : MonoBehaviour {
         float anglePerSecond = Speed / Planet.Permieter * Direction * Mathf.Rad2Deg;
         float deltaAngle = Time.fixedDeltaTime * anglePerSecond;
 
-        OrbitAngle += deltaAngle;
+        OrbitAngle += deltaAngle;        
 
         Vector3 targetPosition, targetFacing;
-        Planet.SampleOrbit2D( OrbitAngle, OrbitDistance,
+        Planet.SampleOrbit2D( OrbitAngle * Mathf.Deg2Rad, OrbitDistance,
                               out targetPosition, out targetFacing );
 
         transform.forward = targetFacing;

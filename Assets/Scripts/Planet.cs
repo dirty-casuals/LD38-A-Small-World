@@ -13,12 +13,14 @@ public class Planet : MonoBehaviour {
         get { return 2 * Mathf.PI * Radius; }
     }
 
+    public float Volume {
+        get { return 4 / 3 * Mathf.PI * Radius * Radius * Radius; }
+    }
+
     public void SampleOrbit2D( float angle,
                                float distance,
                                out Vector3 position,
-                               out Vector3 normal ) {
-
-        angle = angle * Mathf.Deg2Rad;
+                               out Vector3 normal ) {               
 
         // Polar to cartesian coordinates
         float x = Mathf.Cos( angle ) * distance;
