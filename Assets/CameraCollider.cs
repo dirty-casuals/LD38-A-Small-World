@@ -1,23 +1,35 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+[ExecuteInEditMode]
 [RequireComponent( typeof( Camera ) )]
-public class CameraCollider : Collider {
+public class CameraCollider : MonoBehaviour {
 
-    BoxCollider _upCollider;
-    BoxCollider _downCollider;
-    BoxCollider _leftCollider;
-    BoxCollider _rightCollider;
+    [SerializeField]
+    private float _planeSize = 100;
 
-    // Use this for initialization
+    [SerializeField]
+    private float _planeThickness = 1;
+
+
     void Start() {
-        var camera = GetComponent<Camera>();        
+        SetupCollisionPlanes();
+    }
+
+    private void SetupCollisionPlanes() {
+        var camera = GetComponent<Camera>();
         Plane[] planes = GeometryUtility.CalculateFrustumPlanes( camera );
 
-        Transform leftPlane = GetOrAddPlane( "LeftPlane" );
-        leftPlane.forward = planes[0].normal;
+        SetupCollisionPlane( planes[0], "_LeftPlane" );
+        SetupCollisionPlane( planes[1], "_RightPlane" );
+        SetupCollisionPlane( planes[2], "_DownPlane" );
+        SetupCollisionPlane( planes[3], "_UpPlane" );
+    }
+
+    private void SetupCollisionPlane( Plane plane, string name ) {
+        Transform planeTransform = GetOrAddPlane( name );
+        planeTransform.forward = plane.normal;
+        planeTransform.localPosition = Vector3.zero;
+        planeTransform.localScale = new Vector3( _planeSize, _planeSize, _planeThickness );
     }
 
     private Transform GetOrAddPlane( string name ) {
@@ -26,7 +38,6 @@ public class CameraCollider : Collider {
             GameObject obj = new GameObject( name );
             child = obj.transform;
             child.SetParent( transform );
-
         }
 
         var boxCollider = child.GetComponent<BoxCollider>();
@@ -34,11 +45,17 @@ public class CameraCollider : Collider {
             boxCollider = child.gameObject.AddComponent<BoxCollider>();
         }
 
+        boxCollider.center = new Vector3( 0, -0.5f, -1 );
+
         return child;
     }
 
-    // Update is called once per frame
-    void Update() {
+#if UNITY_EDITOR
 
+    private void Update() {
+        if( !Application.isPlaying ) {
+            SetupCollisionPlanes();
+        }
     }
+#endif
 }
