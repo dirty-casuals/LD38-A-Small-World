@@ -34,13 +34,11 @@ public class Planet : MonoBehaviour {
     private void FixedUpdate()
     {
         float currentZ = transform.position.z;
+        float currentX = transform.position.x;
         float nextZ = currentZ + (moveDirection * _moveSpeed);
+        float nextX = currentX + (moveDirection * _moveSpeed);
 
-        if ( nextZ >= GameController.MAX_Z || nextZ <= GameController.MIN_Z ) {
-            moveDirection = -moveDirection;
-        }
-
-        transform.position = new Vector3(transform.position.x,
+        transform.position = new Vector3(nextX,
                                          transform.position.y,
                                          nextZ);
     }
