@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 7a0e04c44281c48919531e8e065098e9
+timeCreated: 1492862100
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Enhanced Dot Digital-7
+  fontNames:
+  - Enhanced Dot Digital-7
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
