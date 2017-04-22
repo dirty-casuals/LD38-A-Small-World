@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[System.Serializable]
+public class LivesEvent : UnityEvent<bool> {
+
+}
+
 public class Lives : MonoBehaviour {
     [SerializeField]
     private int numberStartLives = 5;
+    [SerializeField]
+    private bool isPlayer = false;
 
-    private int numberLivesRemaining;
-    private UnityEvent onLivesEmptyEvent = new UnityEvent();
+    public int numberLivesRemaining;
+    private LivesEvent onLivesEmptyEvent = new LivesEvent();
 
     private void Awake() {
         numberLivesRemaining = numberStartLives;
@@ -19,18 +26,18 @@ public class Lives : MonoBehaviour {
     }
 
     private bool OutOfLives() {
-        return numberLivesRemaining >= 0;
+        return numberLivesRemaining <= 0;
     }
 
-    private void OnTriggerEnter(Collider other) {
+    private void OnCollisionEnter(Collision other) {
         RemoveLife();
 
         if (OutOfLives()) {
-            onLivesEmptyEvent.Invoke();
+            onLivesEmptyEvent.Invoke(isPlayer);
         }
     }
 
-    public void AddListener(UnityAction listener) {
+    public void AddListener(UnityAction<bool> listener) {
         onLivesEmptyEvent.AddListener(listener);
     }
 }
