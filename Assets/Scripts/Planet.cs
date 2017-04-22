@@ -1,26 +1,23 @@
 ﻿using UnityEngine;
 
-public class Planet : MonoBehaviour
-{
+public class Planet : MonoBehaviour {
     [SerializeField]
     private float _radius;
 
-    public float Radius
-    {
+    public float Radius {
         get { return _radius; }
         set { _radius = value; }
     }
 
-    public float Permieter
-    {
+    public float Permieter {
         get { return 2 * Mathf.PI * Radius; }
     }
 
-    public void SampleOrbit2D( float angle, 
-                               float distance, 
-                               out Vector3 position, 
-                               out Vector3 normal )
-    {
+    public void SampleOrbit2D( float angle,
+                               float distance,
+                               out Vector3 position,
+                               out Vector3 normal ) {
+
         // Polar to cartesian coordinates
         float x = Mathf.Cos( angle ) * distance;
         float y = Mathf.Sin( angle ) * distance;
@@ -29,5 +26,5 @@ public class Planet : MonoBehaviour
         Vector3 center = transform.position;
         position = center + dispalcement;
         normal = dispalcement.normalized;
-    }    
+    }
 }

@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-public class PaddleController : MonoBehaviour
-{
+public class PaddleController : MonoBehaviour {
     [SerializeField]
     private float _speed;
 
@@ -14,44 +13,38 @@ public class PaddleController : MonoBehaviour
     [SerializeField]
     private float _orbitDistance;
 
-    public enum MoveDirection
-    {
+    public enum MoveDirection {
         Left = -1,
-        None = 0,        
+        None = 0,
         Right = 1,
     }
 
-    public float Speed
-    {
+    public float Speed {
         get { return _speed; }
         set { _speed = value; }
     }
 
-    public MoveDirection Direction
-    {
+    public MoveDirection Direction {
         get; set;
     }
 
-    public Planet Planet
-    {
+    public Planet Planet {
         get { return _planet; }
         set { _planet = value; }
     }
 
-    public float OrbitAngle
-    {
+    public float OrbitAngle {
         get { return _orbitAngle; }
         private set { _orbitAngle = value; }
     }
 
-    public float OrbitDistance
-    {
+    public float OrbitDistance {
         get { return _orbitDistance; }
         set { _orbitDistance = value; }
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
+
         int direction = (int) Direction;
         float anglePerSecond = Speed / Planet.Permieter * direction;
         float deltaAngle = Time.fixedDeltaTime * anglePerSecond;
@@ -59,7 +52,7 @@ public class PaddleController : MonoBehaviour
         OrbitAngle += deltaAngle;
 
         Vector3 targetPosition, targetFacing;
-        Planet.SampleOrbit2D( OrbitAngle, OrbitDistance, 
+        Planet.SampleOrbit2D( OrbitAngle, OrbitDistance,
                               out targetPosition, out targetFacing );
 
         transform.forward = targetFacing;
