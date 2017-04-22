@@ -45,6 +45,9 @@ public class PaddleController : MonoBehaviour {
     }
 
     private static float ClampAngle( float angle, float min, float max ) {
+        if( min == max )
+            return angle;
+                            
         if( angle < 90 || angle > 270 ) {       // if angle in the critic region...
             if( angle > 180 ) angle -= 360;  // convert all angles to -180..+180
             if( max > 180 ) max -= 360;
