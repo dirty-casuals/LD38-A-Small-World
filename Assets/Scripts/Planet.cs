@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+[ExecuteInEditMode]
 public class Planet : MonoBehaviour {
     [SerializeField]
     private float _radius;
@@ -20,7 +21,7 @@ public class Planet : MonoBehaviour {
     public void SampleOrbit2D( float angle,
                                float distance,
                                out Vector3 position,
-                               out Vector3 normal ) {               
+                               out Vector3 normal ) {
 
         // Polar to cartesian coordinates
         float x = Mathf.Cos( angle ) * distance;
@@ -31,4 +32,24 @@ public class Planet : MonoBehaviour {
         position = center + dispalcement;
         normal = dispalcement.normalized;
     }
+
+#if UNITY_EDITOR
+
+    private void Update() {
+        if( Application.isPlaying ) {
+            return;
+        }
+
+        var sphereColider = GetComponent<SphereCollider>();
+        if( sphereColider ) {
+            sphereColider.radius = Radius;
+        }
+
+        var model = transform.FindChild( "Model" );
+        if( model ) {
+            model.localScale = Vector3.one * Radius * 2;
+        }
+
+    }
+#endif
 }
