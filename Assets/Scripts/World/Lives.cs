@@ -22,6 +22,8 @@ public class Lives : MonoBehaviour {
 
     [SerializeField]
     private LivesEvent onLivesChanged;
+
+    [SerializeField]
     private OutOfLivesEvent onLivesEmptyEvent = new OutOfLivesEvent();
 
     private static Dictionary<int, Lives> livesByPlayerId;
