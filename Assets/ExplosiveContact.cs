@@ -9,7 +9,10 @@ public class ExplosiveContact : MonoBehaviour {
 
     private void OnCollisionEnter( Collision collision ) {
         if( collision.rigidbody ) {
-            collision.rigidbody.AddForce( collision.impulse.normalized * _impactForce, ForceMode.Impulse );
+            Vector3 forceDirection = collision.transform.position - transform.position;
+            forceDirection.Normalize();
+
+            collision.rigidbody.AddForce( forceDirection * _impactForce, ForceMode.Impulse );
         }
     }
 }

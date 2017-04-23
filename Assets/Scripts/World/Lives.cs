@@ -23,7 +23,6 @@ public class Lives : MonoBehaviour {
     private LivesEvent onLivesEmptyEvent;
 
 
-
     private void Awake() {
         numberLivesRemaining = numberStartLives;
     }
@@ -38,6 +37,7 @@ public class Lives : MonoBehaviour {
 
     private void OnCollisionEnter( Collision other ) {
         var ball = other.transform.GetComponent<Ball>();
+
         if( !ball ) {
             return;
         }
