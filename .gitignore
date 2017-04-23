@@ -31,3 +31,5 @@ sysinfo.txt
 
 .vscode/**
 Assets/VSCode*
+
+Assets/Prefabs/LivesDisplay.prefab
