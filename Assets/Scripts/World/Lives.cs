@@ -37,6 +37,11 @@ public class Lives : MonoBehaviour {
     }
 
     private void OnCollisionEnter( Collision other ) {
+        var ball = other.transform.GetComponent<Ball>();
+        if( !ball ) {
+            return;
+        }
+
         RemoveLife();
 
         if( OutOfLives() ) {

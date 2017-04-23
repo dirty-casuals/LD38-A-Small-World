@@ -12,6 +12,15 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     private PaddleController _paddleController;
 
+    [SerializeField]
+    private string _axis = "Vertical";
+
+    [SerializeField]
+    private bool _inverted;
+
+    [SerializeField, Range( 0.01f, 2 )]
+    private float _controllerResponsiveness = 0.5f;
+
     [SerializeField, Range( 0.1f, 10 )]
     private float _pointerResponsiveness = 3;
 
@@ -31,13 +40,15 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void HandleKeyboardInput() {
-        float direction = Input.GetAxis( "Vertical" );
+        float direction = Input.GetAxis( _axis );
 
         if( direction != 0 ) {
             controlType = ControlType.Keyboard;
         }
 
         if( controlType == ControlType.Keyboard ) {
+            direction = _inverted ? -direction : direction;
+            direction *= _controllerResponsiveness;
             _paddleController.Direction = direction;
         }
     }

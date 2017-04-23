@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent( typeof( SphereCollider ) )]
 public class GravitationalPull : MonoBehaviour {
 
     [SerializeField]
     private float _gravity = 0.1f;
+
+    [SerializeField]
+    private LayerMask _affectedLayers;
 
     private Planet _planet;
     private SphereCollider _spehereCollider;
@@ -47,6 +51,14 @@ public class GravitationalPull : MonoBehaviour {
             force = -Planet.Volume * Gravity;
         }
 
-        other.attachedRigidbody.AddExplosionForce( force, Planet.transform.position, radius );
+        int objLayer = other.attachedRigidbody.gameObject.layer;
+        bool isAffected = IsAffectedLayer( objLayer );
+        if( isAffected ) {
+            other.attachedRigidbody.AddExplosionForce( force, Planet.transform.position, radius );
+        }
+    }
+
+    private bool IsAffectedLayer( int objLayer ) {
+        return _affectedLayers == ( _affectedLayers | ( 1 << objLayer ) );
     }
 }

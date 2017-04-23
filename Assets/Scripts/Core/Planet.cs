@@ -7,7 +7,7 @@ public class Planet : MonoBehaviour {
     [SerializeField]
     private float _moveSpeed;
 
-    private int moveDirection = 1;
+    private Vector3 moveDirection = Vector3.zero;
 
     public float Radius {
         get { return _radius; }
@@ -28,19 +28,25 @@ public class Planet : MonoBehaviour {
     }
 
     private void Start() {
-        moveDirection = Random.Range(0, 2) * 2 - 1;
+        moveDirection = new Vector3( Random.Range( -1, 1 ), 0, Random.Range( -1, 1 ) );
+        moveDirection.Normalize();
+
+        Rigidbody rigidBody = GetComponent<Rigidbody>();
+        if( rigidBody ) {
+            rigidBody.AddForce( moveDirection * MoveSpeed, ForceMode.Impulse );
+        }
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() {
         float currentZ = transform.position.z;
         float currentX = transform.position.x;
-        float nextZ = currentZ + (moveDirection * _moveSpeed);
-        float nextX = currentX + (moveDirection * _moveSpeed);
+        float nextZ = currentZ + ( moveDirection.y * _moveSpeed );
+        float nextX = currentX + ( moveDirection.x * _moveSpeed );
 
-        transform.position = new Vector3(nextX,
+        return;
+        transform.position = new Vector3( nextX,
                                          transform.position.y,
-                                         nextZ);
+                                         nextZ );
     }
 
     public void SampleOrbit2D( float angle,
