@@ -5,7 +5,7 @@ using UnityEngine;
 public class SimpleTrackerBehaviour : TrackingBehaviour {
 
     [SerializeField]
-    private float margin = 1.0f;
+    private float margin = 5.0f;
 
     private float speed;
 
@@ -14,27 +14,44 @@ public class SimpleTrackerBehaviour : TrackingBehaviour {
                                            PlanetProperties planetProperties) {
         float direction = 0.0f;
 
-        float zDiff = planetProperties.position.z - ballProperties.position.z;
-        float xDiff = planetProperties.position.x - ballProperties.position.x;
-        float angleBallToPlanet = Mathf.Atan2(zDiff,
-                                              xDiff);
+        float angleBallToPlanet = GetAngleBetweenBodies(planetProperties.position,
+                                                        ballProperties.position);
 
-        float zDiffBat = planetProperties.position.z - paddleProperties.position.z;
-        float xDiffBat = planetProperties.position.x - paddleProperties.position.x;
-        float angleBatToPlanet = Mathf.Atan2(zDiffBat,
-                                              xDiffBat);
+        float angleBatToPlanet = GetAngleBetweenBodies(planetProperties.position,
+                                                    paddleProperties.position);
 
-        float degBallToPlanet = (180 / Mathf.PI) * angleBallToPlanet;
-        float degBatToPlanet = (180 / Mathf.PI) * angleBatToPlanet;
-        float degDiff = degBallToPlanet - degBatToPlanet;
+        float degDiff = GetDiffInDegrees(angleBallToPlanet, angleBatToPlanet);
+        float positionDifference = Vector3.Distance(paddleProperties.position,
+                                                    ballProperties.position);
 
         if( degDiff > margin ) {
-            direction = 1.0f;
-        } else if (degDiff < -margin ) {
-            direction = -1.0f;
+            direction = 1.0f * (1 - ( 1 / positionDifference));
+        } else if ( degDiff < -margin ) {
+            direction = -1.0f * (1 - ( 1 / positionDifference));
         }
 
         return direction;
+    }
+
+    private float ToDegrees( float rads ) {
+        return (180.0f / Mathf.PI) * rads;
+    }
+
+    private float GetAngleBetweenBodies( Vector3 body1, Vector3 body2 ) {
+        float zDiff =  body1.z - body2.z;
+        float xDiff = body1.x - body2.x;
+        float angle= Mathf.Atan2(zDiff, xDiff);
+
+        return angle;
+    }
+
+    private float GetDiffInDegrees( float rad1, float rad2 ) {
+        float deg1 = ToDegrees(rad1);
+        float deg2  = ToDegrees(rad2);
+        float degDiff = deg1 - deg2;
+        float normaliseDegDiff = 180.0f - Mathf.Abs(degDiff - 180.0f);
+
+        return normaliseDegDiff;
     }
 
 }
