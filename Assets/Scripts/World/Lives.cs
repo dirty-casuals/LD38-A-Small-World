@@ -42,6 +42,7 @@ public class Lives : MonoBehaviour {
 
     private void RemoveLife() {
         numberLivesRemaining = numberLivesRemaining - 1;
+        onLivesChanged.Invoke( playerId );
     }
 
     private bool OutOfLives() {
