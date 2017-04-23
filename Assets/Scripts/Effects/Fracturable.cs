@@ -15,11 +15,7 @@ public class Fracturable : MonoBehaviour {
     [SerializeField]
     private AnimationCurve _scaleOverLifetime =
         new AnimationCurve( new Keyframe( 0, 1 ),
-                            new Keyframe( 1, 0 ) );
-
-    void OnDestroy() {
-        Explode();
-    }
+                            new Keyframe( 1, 0 ) );    
 
     public void Explode() {
         var meshRenderer = GetComponent<MeshRenderer>();
