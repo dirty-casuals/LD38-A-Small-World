@@ -1,4 +1,11 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class EndOfGameEvent : UnityEvent<bool> {
+
+}
 
 public class GameController : MonoBehaviour {
 
@@ -9,24 +16,33 @@ public class GameController : MonoBehaviour {
     private Rigidbody ball;
     [SerializeField]
     private World[] worlds;
+    private List<World> worldsAlive = new List<World>();
 
     private Vector3 ballStartPosition;
+    [SerializeField]
+    private EndOfGameEvent endOfGameEvent = new EndOfGameEvent();
 
     private void Start() {
         foreach( var world in worlds ) {
             world.AddHitListener( OnWorldHit );
             world.AddOutOfLivesListener( OnOutOfLives );
+            worldsAlive.Add( world );
         }
         ballStartPosition = ball.transform.position;
 
         KickOff();
     }
 
-    private void OnOutOfLives( int playerId ) {
+    private void OnOutOfLives( int playerId, World world ) {
         if( playerId == 0 ) {
-            Debug.Log( "PLAYER LOST!" );
+            endOfGameEvent.Invoke(true);
         } else {
-            Debug.Log( "POOTER LOST!" );
+            worldsAlive.Remove( world );
+            Destroy( world.gameObject );
+
+            if( worldsAlive.Count == 1 ) {
+                endOfGameEvent.Invoke(false);
+            }
         }
     }
 

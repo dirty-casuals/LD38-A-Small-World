@@ -37,18 +37,6 @@ public class Planet : MonoBehaviour {
         }
     }
 
-    private void FixedUpdate() {
-        float currentZ = transform.position.z;
-        float currentX = transform.position.x;
-        float nextZ = currentZ + ( moveDirection.y * _moveSpeed );
-        float nextX = currentX + ( moveDirection.x * _moveSpeed );
-
-        return;
-        transform.position = new Vector3( nextX,
-                                         transform.position.y,
-                                         nextZ );
-    }
-
     public void SampleOrbit2D( float angle,
                                float distance,
                                out Vector3 position,

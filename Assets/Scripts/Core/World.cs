@@ -20,7 +20,7 @@ public class World : Planet {
         onPlanetHit.AddListener( call );
     }
 
-    public void AddOutOfLivesListener( UnityAction<int> call ) {
+    public void AddOutOfLivesListener( UnityAction<int, World> call ) {
         lives.AddOutOfLivesListener( call );
     }
 

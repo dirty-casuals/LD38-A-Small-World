@@ -4,8 +4,11 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [System.Serializable]
-public class LivesEvent : UnityEvent<int> {
+public class OutOfLivesEvent : UnityEvent<int, World> {
+}
 
+[System.Serializable]
+public class LivesEvent : UnityEvent<int> {
 }
 
 public class Lives : MonoBehaviour {
@@ -19,8 +22,7 @@ public class Lives : MonoBehaviour {
 
     [SerializeField]
     private LivesEvent onLivesChanged;
-    [SerializeField]
-    private LivesEvent onLivesEmptyEvent;
+    private OutOfLivesEvent onLivesEmptyEvent = new OutOfLivesEvent();
 
     private static Dictionary<int, Lives> livesByPlayerId;
 
@@ -56,11 +58,11 @@ public class Lives : MonoBehaviour {
         RemoveLife();
 
         if( OutOfLives() ) {
-            onLivesEmptyEvent.Invoke( PlayerId );
+            onLivesEmptyEvent.Invoke( PlayerId, GetComponent<World>() );
         }
     }
 
-    public void AddOutOfLivesListener( UnityAction<int> listener ) {
+    public void AddOutOfLivesListener( UnityAction<int, World> listener ) {
         onLivesEmptyEvent.AddListener( listener );
     }
 

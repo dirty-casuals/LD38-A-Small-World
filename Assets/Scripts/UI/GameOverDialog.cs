@@ -11,8 +11,8 @@ public class GameOverDialog : MonoBehaviour {
     [SerializeField]
     private Text _retryButtonLabel;
 
-    public void OnPlayerOutOfLives( int playerId ) {
-        if( playerId == 0 ) {
+    public void OnGameOver( bool isPlayer ) {
+        if( isPlayer ) {
             SetLoseContent();
             Show();
         } else {
@@ -30,12 +30,12 @@ public class GameOverDialog : MonoBehaviour {
     }
 
     public void SetWinContent() {
-        _gameOverMessage.text = "Congratulations, Pluto!";
+        _gameOverMessage.text = "Congratulations Pluto, you're a planet! A lonely, lonely planet.";
         _retryButtonLabel.text = "Play Again";
     }
 
     public void SetLoseContent() {
-        _gameOverMessage.text = "Game Over";
+        _gameOverMessage.text = "Game Over, rest in pieces Pluto.";
         _retryButtonLabel.text = "Try Again";
     }
 }
