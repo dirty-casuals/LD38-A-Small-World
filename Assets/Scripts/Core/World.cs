@@ -11,7 +11,9 @@ public class World : Planet {
     }
 
     private void OnCollisionEnter( Collision other ) {
-        onPlanetHit.Invoke();
+        if( other.transform.GetComponent<Ball>() ) {
+            onPlanetHit.Invoke();
+        }
     }
 
     public void AddHitListener( UnityAction call ) {
