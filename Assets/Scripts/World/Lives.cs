@@ -22,9 +22,20 @@ public class Lives : MonoBehaviour {
     [SerializeField]
     private LivesEvent onLivesEmptyEvent;
 
+    private static Dictionary<int, Lives> livesByPlayerId;
+
+    public int PlayerId {
+        get { return playerId; }
+        set { playerId = value; }
+    }
+
+    public int NumberStartLives {
+        get { return numberStartLives; }
+        set { numberStartLives = value; }
+    }
 
     private void Awake() {
-        numberLivesRemaining = numberStartLives;
+        numberLivesRemaining = NumberStartLives;
     }
 
     private void RemoveLife() {
@@ -45,7 +56,7 @@ public class Lives : MonoBehaviour {
         RemoveLife();
 
         if( OutOfLives() ) {
-            onLivesEmptyEvent.Invoke( playerId );
+            onLivesEmptyEvent.Invoke( PlayerId );
         }
     }
 
@@ -56,4 +67,25 @@ public class Lives : MonoBehaviour {
     public void AddLivesChangedListener( UnityAction<int> listener ) {
         onLivesChanged.AddListener( listener );
     }
+
+    public static Lives GetLivesForPlayer( int playerId ) {
+        if( livesByPlayerId == null ) {
+            livesByPlayerId = new Dictionary<int, Lives>();
+        }
+
+        Lives lives = null;
+        livesByPlayerId.TryGetValue( playerId, out lives );
+        if( !lives ) {
+            Lives[] allLives = FindObjectsOfType<Lives>();
+            foreach( Lives currentLives in allLives ) {
+                livesByPlayerId[currentLives.playerId] = currentLives;
+                if( currentLives.playerId == playerId ) {
+                    lives = currentLives;
+                }
+            }
+        }
+
+        return lives;
+    }
+
 }
