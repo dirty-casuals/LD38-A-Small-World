@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class GameOverDialog : MonoBehaviour {
 
     [SerializeField]
+    private Text _gameOverTitle;
+
+    [SerializeField]
     private Text _gameOverMessage;
 
     [SerializeField]
@@ -30,12 +33,14 @@ public class GameOverDialog : MonoBehaviour {
     }
 
     public void SetWinContent() {
-        _gameOverMessage.text = "Congratulations Pluto, you're a planet! A lonely, lonely planet.";
+        _gameOverTitle.text = "Congratulations, Pluto!";
+        _gameOverMessage.text = "You're a planet! A lonely, lonely planet.";
         _retryButtonLabel.text = "Play Again";
     }
 
     public void SetLoseContent() {
-        _gameOverMessage.text = "Game Over, rest in pieces Pluto.";
+        _gameOverTitle.text = "Game Over";
+        _gameOverMessage.text = "Rest in pieces Pluto.";
         _retryButtonLabel.text = "Try Again";
     }
 }
