@@ -55,8 +55,8 @@ public class AudioManager : MonoBehaviour {
     }
 
 
-    public static void PlayMusic( AudioClip clip, float fadeTime ) {
-        instance.CrossFade( clip, fadeTime );
+    public static void PlayMusic( AudioClip clip, float volume, float fadeTime ) {
+        instance.CrossFade( clip, volume, fadeTime );
     }
 
     public static void PlayEffect( AudioClip clip, float volume = 1 ) {
@@ -72,13 +72,14 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
-    private void CrossFade( AudioClip clip, float duration ) {
-        StartCoroutine( CrossFader( clip, duration ) );
+    private void CrossFade( AudioClip clip, float volume, float duration ) {
+        StartCoroutine( CrossFader( clip, volume, duration ) );
     }
 
-    private IEnumerator CrossFader( AudioClip clip, float duration ) {
+    private IEnumerator CrossFader( AudioClip clip, float volume, float duration ) {
 
         if( !musicSource1.isPlaying ) {
+            musicSource1.volume = volume;
             musicSource1.clip = clip;
             musicSource1.Play();
             yield break;
@@ -88,22 +89,22 @@ public class AudioManager : MonoBehaviour {
             yield break;
         }
 
-        musicSource1.volume = 1;
+        float source1Volume = musicSource1.volume;
         musicSource2.volume = 0;
         musicSource2.clip = clip;
         musicSource2.Play();
 
         for( float time = duration; time > 0; time -= Time.deltaTime ) {
             float fade = time / duration;
-            musicSource1.volume = fade;
-            musicSource2.volume = 1 - fade;
+            musicSource1.volume = source1Volume * fade;
+            musicSource2.volume = ( 1 - fade ) * volume;
             yield return null;
         }
 
         AudioSource temp = musicSource1;
         musicSource1 = musicSource2;
         musicSource2 = temp;
-        musicSource1.volume = 1;
+        musicSource1.volume = volume;
         musicSource2.volume = 0;
         musicSource2.Stop();
     }

@@ -6,9 +6,12 @@ public class MusicPlayer : MonoBehaviour {
     AudioClip music;
 
     [SerializeField]
+    float volume = 1.0f;
+
+    [SerializeField]
     float crossFadeTime = 5.0f;
 
     void Start() {
-        AudioManager.PlayMusic( music, crossFadeTime );
+        AudioManager.PlayMusic( music, volume, crossFadeTime );
     }
 }
