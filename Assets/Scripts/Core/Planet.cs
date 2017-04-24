@@ -11,7 +11,10 @@ public class Planet : MonoBehaviour {
 
     public float Radius {
         get { return _radius; }
-        set { _radius = value; }
+        set {
+            _radius = value;
+            UpdateDependentComponents();
+        }
     }
 
     public float MoveSpeed {
@@ -52,13 +55,7 @@ public class Planet : MonoBehaviour {
         normal = displacement.normalized;
     }
 
-#if UNITY_EDITOR
-
-    private void Update() {
-        if( Application.isPlaying ) {
-            return;
-        }
-
+    private void UpdateDependentComponents() {
         var sphereColider = GetComponent<SphereCollider>();
         if( sphereColider ) {
             sphereColider.radius = Radius;
@@ -68,7 +65,16 @@ public class Planet : MonoBehaviour {
         if( model ) {
             model.localScale = Vector3.one * Radius * 2;
         }
+    }
 
+#if UNITY_EDITOR
+
+    private void Update() {
+        if( Application.isPlaying ) {
+            return;
+        }
+
+        UpdateDependentComponents();
     }
 #endif
 }
