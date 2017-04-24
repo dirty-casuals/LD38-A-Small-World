@@ -11,7 +11,12 @@ public class AudioManager : MonoBehaviour {
     private AudioSource musicSource2;
 
     [SerializeField]
+    private AudioSource[] sfxSources;
+
+    [SerializeField]
     private float crossFade = 0;
+
+    private int currentSFX = 0;
 
     private static AudioManager _instance;
     private static AudioManager instance {
@@ -37,6 +42,14 @@ public class AudioManager : MonoBehaviour {
             musicSource2 = gameObject.AddComponent<AudioSource>();
         }
 
+        if( sfxSources == null || sfxSources.Length == 0 ) {
+            sfxSources = new AudioSource[5];
+            for( int i = 0; i < sfxSources.Length; i++ ) {
+                sfxSources[i] = gameObject.AddComponent<AudioSource>();
+                sfxSources[i].loop = false;
+            }
+        }
+
         musicSource1.loop = true;
         musicSource2.loop = true;
     }
@@ -44,6 +57,19 @@ public class AudioManager : MonoBehaviour {
 
     public static void PlayMusic( AudioClip clip, float fadeTime ) {
         instance.CrossFade( clip, fadeTime );
+    }
+
+    public static void PlayEffect( AudioClip clip, float volume = 1 ) {
+        instance.PlayNextEffect( clip, volume );
+    }
+
+    private void PlayNextEffect( AudioClip clip, float volume ) {
+        sfxSources[currentSFX].PlayOneShot( clip, volume );
+
+        currentSFX++;
+        if( currentSFX >= sfxSources.Length ) {
+            currentSFX = 0;
+        }
     }
 
     private void CrossFade( AudioClip clip, float duration ) {
