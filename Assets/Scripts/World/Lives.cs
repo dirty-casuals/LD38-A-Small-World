@@ -26,6 +26,12 @@ public class Lives : MonoBehaviour {
     [SerializeField]
     private OutOfLivesEvent onLivesEmptyEvent = new OutOfLivesEvent();
 
+    [SerializeField]
+    private AudioClip hurtSFX;
+
+    [SerializeField]
+    private AudioClip explosionSFX;
+
     private static Dictionary<int, Lives> livesByPlayerId;
 
     public int PlayerId {
@@ -62,6 +68,9 @@ public class Lives : MonoBehaviour {
 
         if( OutOfLives() ) {
             onLivesEmptyEvent.Invoke( PlayerId, GetComponent<World>() );
+            AudioManager.PlayEffect( explosionSFX );
+        } else {
+            AudioManager.PlayEffect( hurtSFX );
         }
     }
 
